@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { ArrowRight, Globe, Zap, MessageSquare, Bot, Phone } from "lucide-react";
+import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/animations/AnimatedSection";
 import solutionsHero from "@/assets/solutions-hero.jpg";
 import websiteMockup from "@/assets/website-mockup.jpg";
 import adsDashboard from "@/assets/ads-dashboard.jpg";
@@ -68,63 +70,85 @@ const SolutionsPage = () => {
         </div>
         
         <div className="container-wide relative z-10 py-20">
-          <div className="max-w-3xl">
-            <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 animate-fade-up">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
+          >
+            <h1 className="font-display text-4xl md:text-6xl font-bold mb-6">
               AI Solutions Designed to{" "}
               <span className="gradient-text">Run Your Business</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground animate-fade-up" style={{ animationDelay: "0.1s" }}>
+            <p className="text-lg md:text-xl text-muted-foreground">
               From customer engagement to sales automation, our AI solutions handle the heavy lifting so you can focus on growth.
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Solutions Grid */}
       <section className="section-padding">
         <div className="container-wide">
-          <div className="space-y-24">
+          <div className="space-y-32">
             {solutions.map((solution, index) => (
               <div 
                 key={solution.title}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center`}
               >
-                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
+                <AnimatedSection 
+                  direction={index % 2 === 0 ? "left" : "right"}
+                  className={index % 2 === 1 ? "lg:order-2" : ""}
+                >
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <motion.div 
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.5 }}
+                      className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center"
+                    >
                       <solution.icon className="h-6 w-6 text-primary" />
-                    </div>
+                    </motion.div>
                     <h2 className="font-display text-2xl md:text-3xl font-bold">{solution.title}</h2>
                   </div>
                   <p className="text-muted-foreground text-lg mb-6">{solution.description}</p>
                   <div className="flex flex-wrap gap-3 mb-8">
-                    {solution.features.map((feature) => (
-                      <span 
+                    {solution.features.map((feature, i) => (
+                      <motion.span 
                         key={feature}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.1 }}
+                        viewport={{ once: true }}
                         className="px-4 py-2 rounded-full glass text-sm text-muted-foreground"
                       >
                         {feature}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
-                  <Button variant="hero" asChild>
-                    <Link to={solution.href}>
-                      Learn More
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                </div>
-                <div className={`relative ${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                  <div className="rounded-2xl overflow-hidden glass glow-primary">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button variant="hero" asChild>
+                      <Link to={solution.href}>
+                        Learn More
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </motion.div>
+                </AnimatedSection>
+                <AnimatedSection 
+                  direction={index % 2 === 0 ? "right" : "left"}
+                  className={index % 2 === 1 ? "lg:order-1" : ""}
+                >
+                  <motion.div 
+                    whileHover={{ scale: 1.02 }}
+                    className="rounded-2xl overflow-hidden glass glow-primary"
+                  >
                     <img 
                       src={solution.image} 
                       alt={solution.title}
                       className="w-full h-auto"
                     />
-                  </div>
-                </div>
+                  </motion.div>
+                </AnimatedSection>
               </div>
             ))}
           </div>
@@ -134,20 +158,22 @@ const SolutionsPage = () => {
       {/* CTA */}
       <section className="section-padding bg-surface-1">
         <div className="container-wide">
-          <div className="max-w-3xl mx-auto text-center">
+          <AnimatedSection className="max-w-3xl mx-auto text-center">
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
               Not Sure Which Solution Fits Your Business?
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
               Let's discuss your needs and design a custom AI system for your business.
             </p>
-            <Button variant="glow" size="xl" asChild>
-              <Link to="/contact">
-                Book a Free Consultation
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button variant="glow" size="xl" asChild>
+                <Link to="/contact">
+                  Book a Free Consultation
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
+            </motion.div>
+          </AnimatedSection>
         </div>
       </section>
     </div>
