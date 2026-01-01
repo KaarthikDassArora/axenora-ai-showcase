@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Zap, Bot, Phone, MessageSquare, Globe } from "lucide-react";
+import { AnimatedSection, StaggerContainer, StaggerItem, ScaleIn } from "@/components/animations/AnimatedSection";
 import heroBg from "@/assets/hero-bg.jpg";
 import websiteMockup from "@/assets/website-mockup.jpg";
 import adsDashboard from "@/assets/ads-dashboard.jpg";
@@ -82,7 +84,7 @@ const HomePage = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center">
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <div 
           className="absolute inset-0 z-0"
           style={{
@@ -94,122 +96,209 @@ const HomePage = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
         </div>
         
+        {/* Animated background elements */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute h-1 w-1 rounded-full bg-primary/30"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                opacity: [0.3, 0.8, 0.3],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
+        
         <div className="container-wide relative z-10 py-20">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-fade-up">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 2 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
+            >
               <Sparkles className="h-4 w-4 text-primary" />
               <span className="text-sm text-muted-foreground">Powering the future of business automation</span>
-            </div>
+            </motion.div>
             
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 2.1 }}
+              className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
+            >
               AI Systems That{" "}
-              <span className="gradient-text">Build, Run & Scale</span>{" "}
+              <span className="gradient-text text-glow">Build, Run & Scale</span>{" "}
               Businesses
-            </h1>
+            </motion.h1>
             
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-up" style={{ animationDelay: "0.2s" }}>
+            <motion.p 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 2.2 }}
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+            >
               Axenora AI installs intelligent systems that automate customer engagement, 
               follow-ups, and business growth — so you can focus on what matters most.
-            </p>
+            </motion.p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: "0.3s" }}>
-              <Button variant="hero" size="xl" asChild>
-                <Link to="/contact">
-                  Book Demo
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-              <Button variant="hero-outline" size="xl" asChild>
-                <Link to="/solutions">Explore Solutions</Link>
-              </Button>
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 2.3 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button variant="hero" size="xl" asChild>
+                  <Link to="/contact">
+                    Book Demo
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button variant="hero-outline" size="xl" asChild>
+                  <Link to="/solutions">Explore Solutions</Link>
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
+        
+        {/* Scroll indicator */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-6 h-10 rounded-full border-2 border-primary/30 flex items-start justify-center p-2"
+          >
+            <motion.div 
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1.5 h-1.5 rounded-full bg-primary"
+            />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Trusted By */}
-      <section className="py-16 border-y border-border bg-surface-1/50">
-        <div className="container-wide">
-          <p className="text-center text-muted-foreground mb-8">Trusted by modern businesses</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-            {trustedLogos.map((logo) => (
-              <div key={logo} className="text-xl font-display font-semibold text-muted-foreground/50 hover:text-muted-foreground transition-colors">
-                {logo}
-              </div>
-            ))}
+      <AnimatedSection>
+        <section className="py-16 border-y border-border bg-surface-1/50">
+          <div className="container-wide">
+            <p className="text-center text-muted-foreground mb-8">Trusted by modern businesses</p>
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+              {trustedLogos.map((logo, index) => (
+                <motion.div 
+                  key={logo}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="text-xl font-display font-semibold text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                >
+                  {logo}
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </AnimatedSection>
 
       {/* What We Do */}
       <section className="section-padding">
         <div className="container-wide">
-          <div className="text-center mb-16">
+          <AnimatedSection className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
               What <span className="gradient-text">Axenora AI</span> Does
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               We build AI-powered business systems that automate, engage, and scale your operations.
             </p>
-          </div>
+          </AnimatedSection>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {solutions.map((solution, index) => (
-              <Link
-                key={solution.title}
-                to={solution.href}
-                className="group relative overflow-hidden rounded-2xl glass hover:border-primary/50 transition-all duration-500"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="aspect-video overflow-hidden">
-                  <img 
-                    src={solution.image} 
-                    alt={solution.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <solution.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <h3 className="font-display font-semibold text-lg group-hover:text-primary transition-colors">
-                      {solution.title}
-                    </h3>
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {solutions.map((solution) => (
+              <StaggerItem key={solution.title}>
+                <Link
+                  to={solution.href}
+                  className="group relative overflow-hidden rounded-2xl glass hover:border-primary/50 transition-all duration-500 block h-full"
+                >
+                  <div className="aspect-video overflow-hidden">
+                    <motion.img 
+                      src={solution.image} 
+                      alt={solution.title}
+                      className="w-full h-full object-cover"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.5 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
                   </div>
-                  <p className="text-muted-foreground text-sm">{solution.description}</p>
-                </div>
-              </Link>
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <motion.div 
+                        whileHover={{ rotate: 360 }}
+                        transition={{ duration: 0.5 }}
+                        className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center"
+                      >
+                        <solution.icon className="h-5 w-5 text-primary" />
+                      </motion.div>
+                      <h3 className="font-display font-semibold text-lg group-hover:text-primary transition-colors">
+                        {solution.title}
+                      </h3>
+                    </div>
+                    <p className="text-muted-foreground text-sm">{solution.description}</p>
+                  </div>
+                </Link>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
       </section>
 
       {/* How It Works */}
       <section className="section-padding bg-surface-1">
         <div className="container-wide">
-          <div className="text-center mb-16">
+          <AnimatedSection className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
               How It <span className="gradient-text">Works</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               A simple, systematic approach to transforming your business with AI.
             </p>
-          </div>
+          </AnimatedSection>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, index) => (
-              <div key={step.number} className="relative">
-                <div className="text-6xl font-display font-bold text-primary/10 mb-4">
-                  {step.number}
+              <AnimatedSection key={step.number} delay={index * 0.15}>
+                <div className="relative">
+                  <motion.div 
+                    whileHover={{ scale: 1.05 }}
+                    className="text-6xl font-display font-bold text-primary/10 mb-4"
+                  >
+                    {step.number}
+                  </motion.div>
+                  <h3 className="font-display font-semibold text-xl mb-2">{step.title}</h3>
+                  <p className="text-muted-foreground text-sm">{step.description}</p>
+                  {index < steps.length - 1 && (
+                    <div className="hidden lg:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-primary/50 to-transparent" />
+                  )}
                 </div>
-                <h3 className="font-display font-semibold text-xl mb-2">{step.title}</h3>
-                <p className="text-muted-foreground text-sm">{step.description}</p>
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-primary/50 to-transparent" />
-                )}
-              </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -219,36 +308,50 @@ const HomePage = () => {
       <section className="section-padding">
         <div className="container-wide">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
+            <AnimatedSection direction="left">
               <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
                 Why Choose <span className="gradient-text">Axenora AI</span>?
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
                 We don't just build tools — we build systems that transform how your business operates.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {benefits.map((benefit) => (
-                  <div key={benefit.title} className="flex items-start gap-3">
-                    <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
-                      <div className="h-2 w-2 rounded-full bg-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-1">{benefit.title}</h4>
-                      <p className="text-muted-foreground text-sm">{benefit.description}</p>
-                    </div>
-                  </div>
+                  <StaggerItem key={benefit.title}>
+                    <motion.div 
+                      whileHover={{ x: 5 }}
+                      className="flex items-start gap-3"
+                    >
+                      <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
+                        <motion.div 
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                          className="h-2 w-2 rounded-full bg-primary" 
+                        />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-1">{benefit.title}</h4>
+                        <p className="text-muted-foreground text-sm">{benefit.description}</p>
+                      </div>
+                    </motion.div>
+                  </StaggerItem>
                 ))}
+              </StaggerContainer>
+            </AnimatedSection>
+            <ScaleIn>
+              <div className="relative">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="aspect-square rounded-2xl overflow-hidden glass glow-primary"
+                >
+                  <img 
+                    src={heroBg} 
+                    alt="AI Technology" 
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
               </div>
-            </div>
-            <div className="relative">
-              <div className="aspect-square rounded-2xl overflow-hidden glass glow-primary">
-                <img 
-                  src={heroBg} 
-                  alt="AI Technology" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
+            </ScaleIn>
           </div>
         </div>
       </section>
@@ -267,20 +370,22 @@ const HomePage = () => {
         </div>
         
         <div className="container-wide relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
+          <AnimatedSection className="max-w-3xl mx-auto text-center">
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
               Ready to <span className="gradient-text">Transform</span> Your Business?
             </h2>
             <p className="text-muted-foreground text-lg mb-10">
               Let's discuss how AI can automate your operations and accelerate your growth.
             </p>
-            <Button variant="glow" size="xl" asChild>
-              <Link to="/contact">
-                Book Your Free Demo
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button variant="glow" size="xl" asChild>
+                <Link to="/contact">
+                  Book Your Free Demo
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
+            </motion.div>
+          </AnimatedSection>
         </div>
       </section>
     </div>

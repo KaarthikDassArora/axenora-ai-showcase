@@ -2,6 +2,8 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
+import logo from "@/assets/logo.png";
 
 const solutions = [
   { name: "AI Website Development", href: "/solutions/website-development" },
@@ -26,12 +28,20 @@ export const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass">
+    <motion.header 
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, delay: 1.8, ease: [0.25, 0.4, 0.25, 1] }}
+      className="fixed top-0 left-0 right-0 z-50 glass"
+    >
       <nav className="container-wide flex items-center justify-between py-4">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <span className="text-primary-foreground font-display font-bold text-xl">A</span>
-          </div>
+        <Link to="/" className="flex items-center gap-3">
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center overflow-hidden"
+          >
+            <img src={logo} alt="Axenora AI" className="h-8 w-8 object-contain" />
+          </motion.div>
           <span className="font-display font-bold text-xl text-foreground">Axenora AI</span>
         </Link>
 
@@ -62,34 +72,44 @@ export const Header = () => {
               )}
 
               {item.hasDropdown && (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: solutionsOpen ? 1 : 0, y: solutionsOpen ? 0 : 10 }}
                   className={`absolute top-full left-0 pt-2 transition-all duration-200 ${
-                    solutionsOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                    solutionsOpen ? "visible" : "invisible pointer-events-none"
                   }`}
                   onMouseEnter={() => setSolutionsOpen(true)}
                   onMouseLeave={() => setSolutionsOpen(false)}
                 >
                   <div className="glass-strong rounded-xl p-2 min-w-[240px]">
-                    {solutions.map((solution) => (
-                      <Link
+                    {solutions.map((solution, index) => (
+                      <motion.div
                         key={solution.name}
-                        to={solution.href}
-                        className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-surface-3 rounded-lg transition-colors"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: solutionsOpen ? 1 : 0, x: solutionsOpen ? 0 : -10 }}
+                        transition={{ delay: index * 0.05 }}
                       >
-                        {solution.name}
-                      </Link>
+                        <Link
+                          to={solution.href}
+                          className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-surface-3 rounded-lg transition-colors"
+                        >
+                          {solution.name}
+                        </Link>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               )}
             </div>
           ))}
         </div>
 
         <div className="hidden lg:flex items-center gap-4">
-          <Button variant="hero" asChild>
-            <Link to="/contact">Book Demo</Link>
-          </Button>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Button variant="hero" asChild>
+              <Link to="/contact">Book Demo</Link>
+            </Button>
+          </motion.div>
         </div>
 
         {/* Mobile Menu Button */}
@@ -103,7 +123,12 @@ export const Header = () => {
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden glass-strong border-t border-border">
+        <motion.div 
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          className="lg:hidden glass-strong border-t border-border"
+        >
           <div className="container-wide py-4 space-y-2">
             {navigation.map((item) => (
               <div key={item.name}>
@@ -142,8 +167,8 @@ export const Header = () => {
               </Button>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </header>
+    </motion.header>
   );
 };

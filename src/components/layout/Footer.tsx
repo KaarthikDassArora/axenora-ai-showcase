@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import logo from "@/assets/logo.png";
 
 const footerLinks = {
   solutions: [
@@ -23,10 +25,13 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <span className="text-primary-foreground font-display font-bold text-xl">A</span>
-              </div>
+            <Link to="/" className="flex items-center gap-3 mb-4">
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center overflow-hidden"
+              >
+                <img src={logo} alt="Axenora AI" className="h-8 w-8 object-contain" />
+              </motion.div>
               <span className="font-display font-bold text-xl text-foreground">Axenora AI</span>
             </Link>
             <p className="text-muted-foreground max-w-md mb-6">
